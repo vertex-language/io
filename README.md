@@ -223,7 +223,7 @@ for the common case.
 | Type | Conforms to | Change it needs |
 | --- | --- | --- |
 | `fs.File` | `Reader`, `Writer`, `Seeker`, `Closer` | `SeekFrom` moves to `io`, and `fs` re-exports it for a release |
-| `tcp.TcpStream` | `AsyncReader`, `AsyncWriter`, `Closer` | none: `Read(into:)` and `Write(_:)` already match |
+| `tcp.TcpStream` | `AsyncReader`, `AsyncWriter` | a no-op `Flush`; not `Closer`, because its `Close` consumes the stream |
 | `quic.Stream` | `AsyncReader`, `AsyncWriter` | gains `Read(into:)`; `Read(maxBytes:)` stays as a convenience |
 | `process.PipeReader` / `PipeWriter` | `AsyncReader` / `AsyncWriter`, `Closer` | `ReadAll()` is renamed `ReadToEnd(limit:)`, as `fs` and `tcp` name it |
 | `process.Stdin` / `Stdout` / `Stderr` | `Reader`/`Writer` and the async pair | new |
@@ -277,7 +277,7 @@ io/
 | --- | --- |
 | 0 | ✅ the compiler fixes above |
 | 1 | ✅ protocols, functions, `Cursor`, adapters, buffering; `tests/check`. `Pipe` after `sync` |
-| 2 | conformances: `fs.File`, `tcp.TcpStream`, `os/process` pipes and `process.Stdin/Stdout/Stderr`; rename `ReadAll` to `ReadToEnd` |
+| 2 | ✅ conformances: `fs.File`, `tcp.TcpStream`, `os/process` pipes and `process.Stdin/Stdout/Stderr`; `ReadAll` renamed `ReadToEnd` |
 | 3 | `quic.Stream`, and HTTP bodies as streams |
 | 4 | `hash` and `compress` on top, the packages this one unblocks |
 
