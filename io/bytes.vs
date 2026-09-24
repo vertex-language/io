@@ -1,50 +1,25 @@
 package io
 
-// The byte-array helpers every function here needs. Array slicing and
-// String(decoding:) are not in core yet (vsc_TODO.md: Collections, Strings),
-// so they are loops.
+// The byte-array helpers every function here needs.
 
 /// The UTF-8 bytes of `text`.
 public func Bytes(_ text: string) -> [uint8] {
-    var out: [uint8] = []
-    for b in text.utf8 {
-        out.append(b)
-    }
-    return out
+    return [uint8](text.utf8)
 }
 
-/// `bytes` as UTF-8 text. A NUL byte ends it, until core can make a string
-/// from bytes directly.
+/// `bytes` as UTF-8 text.
 public func Text(_ bytes: [uint8]) -> string {
-    var chars: [CChar] = []
-    for b in bytes {
-        if b == 0 {
-            break
-        }
-        chars.append(CChar(truncatingIfNeeded: b))
-    }
-    chars.append(0)
-    return string(cString: chars)
+    return string(decoding: bytes, as: UTF8.self)
 }
 
 // prefix is the first n bytes of buf, as their own array.
 func prefix(_ buf: [uint8], _ n: int) -> [uint8] {
-    var out: [uint8] = []
-    var i = 0
-    while i < n {
-        out.append(buf[i])
-        i += 1
-    }
-    return out
+    return Array(buf[0..<n])
 }
 
 // appendPrefix appends the first n bytes of buf to out.
 func appendPrefix(_ out: inout [uint8], _ buf: [uint8], _ n: int) {
-    var i = 0
-    while i < n {
-        out.append(buf[i])
-        i += 1
-    }
+    out.append(contentsOf: buf[0..<n])
 }
 
 // copyInto writes count bytes of src into dst starting at offset at.

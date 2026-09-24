@@ -327,3 +327,22 @@ func lineText(_ bytes: [uint8]) -> string {
     }
     return Text(prefix(bytes, n))
 }
+
+/// AsyncLines is a reader's lines, one at a time, without their line
+/// endings: `for try await line in io.AsyncLines(reader) { … }`.
+public struct AsyncLines<R: AsyncReader>: AsyncSequence, AsyncIteratorProtocol {
+    var reader: AsyncBufferedReader<R>
+
+    public init(_ inner: R) {
+        reader = AsyncBufferedReader(inner)
+    }
+
+    /// The next line, or nil at the end of the stream.
+    public mutating func next() async throws -> string? {
+        return try await reader.ReadLine()
+    }
+
+    public func makeAsyncIterator() -> AsyncLines<R> {
+        return self
+    }
+}
