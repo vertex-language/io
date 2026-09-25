@@ -310,4 +310,4 @@ io/
 
 ## License
 
-See [LICENSE](LICENSE).
+[MIT](LICENSE)
