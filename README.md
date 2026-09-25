@@ -1,17 +1,29 @@
 # io
 
-[![package: stdlib](https://img.shields.io/badge/package-stdlib-f4f4f5?style=flat-square&labelColor=e4e4e7&color=18181b)](https://github.com/vertex-language)
+[![package: vs-package](https://img.shields.io/badge/package-vs--package-f4f4f5?style=flat-square&labelColor=e4e4e7&color=18181b)](https://github.com/vertex-language)
 [![runtime: async + sync](https://img.shields.io/badge/runtime-async%20%2B%20sync-f4f4f5?style=flat-square&labelColor=e4e4e7&color=18181b)](https://github.com/vertex-language)
 [![status: tested](https://img.shields.io/badge/status-tested-f4f4f5?style=flat-square&labelColor=e4e4e7&color=18181b)](https://github.com/vertex-language/io)
 
-The shared interface for everything that moves bytes in Vertex: files,
-sockets, pipes, compressors, hashes and in-memory buffers.
+Streaming I/O abstractions, protocols, buffering, adapters, and cursor operations for bytes, files, sockets, and memory buffers.
 
 > **Status.** The protocols, functions, buffering, adapters and `Cursor`
-> are implemented, and `tests/check` passes (32 checks). `Pipe` waits for
-> the `sync` package, because it needs a way to park a reader until a
-> writer arrives. The compiler work it needed is done; see
-> [Compiler work](#compiler-work).
+> are implemented, and `tests/check` passes (32 checks).
+
+---
+
+## Quick Start
+
+Run any entry point with:
+
+```bash
+vsc run main.vs
+```
+
+Or run the test suite:
+
+```bash
+vsc run check
+```
 
 ---
 
