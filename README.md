@@ -13,13 +13,7 @@ Streaming I/O abstractions, protocols, buffering, adapters, and cursor operation
 
 ## Quick Start
 
-Run any entry point with:
-
-```bash
-vsc run main.vs
-```
-
-Or run the test suite:
+Run the test suite in `cmd/` directly with `vsc run`:
 
 ```bash
 vsc run check
