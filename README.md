@@ -7,7 +7,7 @@
 Streaming I/O abstractions, protocols, buffering, adapters, and cursor operations for bytes, files, sockets, and memory buffers.
 
 > **Status.** The protocols, functions, buffering, adapters and `Cursor`
-> are implemented, and `tests/check` passes (32 checks).
+> are implemented, and `cmd/check` passes (32 checks).
 
 ---
 
@@ -270,17 +270,16 @@ functions above are free functions for now), `AsyncSequence` and
 ## Layout
 
 ```
-io/
-  package.vs         one target, "io"; no native target
-  io/
-    protocols.vs     Reader, Writer, AsyncReader, AsyncWriter, Closer, Seeker, SeekFrom
-    read.vs          ReadFull, ReadToEnd, ReadText, Copy, WriteText (sync + async)
-    buffered.vs      BufferedReader, BufferedWriter and the async forms
-    adapters.vs      Limit, Chain, Tee, Discard
-    cursor.vs        Cursor
-    bytes.vs         Bytes, Text, and the array helpers
-    error.vs         IoError: unexpectedEnd, tooLarge, invalidSeek
-  tests/check/main.vs
+io/                 import "io": a folder of .vs, no native code
+  vs.mod            module github.com/vertex-language/io
+  protocols.vs      Reader, Writer, AsyncReader, AsyncWriter, Closer, Seeker, SeekFrom
+  read.vs           ReadFull, ReadToEnd, ReadText, Copy, WriteText (sync + async)
+  buffered.vs       BufferedReader, BufferedWriter and the async forms
+  adapters.vs       Limit, Chain, Tee, Discard
+  cursor.vs         Cursor
+  bytes.vs          Bytes, Text, and the array helpers
+  error.vs          IoError: unexpectedEnd, tooLarge, invalidSeek
+  cmd/check/        the test program (vsc run check)
 ```
 
 ## Roadmap
@@ -288,7 +287,7 @@ io/
 | Step | Work |
 | --- | --- |
 | 0 | ✅ the compiler fixes above |
-| 1 | ✅ protocols, functions, `Cursor`, adapters, buffering; `tests/check`. `Pipe` after `sync` |
+| 1 | ✅ protocols, functions, `Cursor`, adapters, buffering; `cmd/check`. `Pipe` after `sync` |
 | 2 | ✅ conformances: `fs.File`, `tcp.TcpStream`, `os/process` pipes and `process.Stdin/Stdout/Stderr`; `ReadAll` renamed `ReadToEnd` |
 | 3 | `quic.Stream`, and HTTP bodies as streams |
 | 4 | `hash` and `compress` on top, the packages this one unblocks |
