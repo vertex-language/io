@@ -15,7 +15,7 @@ public struct BufferedReader<R: Reader>: Reader {
     var done: bool
 
     /// Wraps `inner`, reading `capacity` bytes at a time (64 KiB by default).
-    public init(_ inner: R, capacity: int = 65536) {
+    public init(inner: R, capacity: int = 65536) {
         Inner = inner
         buf = [uint8](repeating: 0, count: capacity < 16 ? 16 : capacity)
         start = 0
@@ -53,7 +53,7 @@ public struct BufferedReader<R: Reader>: Reader {
 
     /// The next `n` bytes without consuming them: fewer only at the end of
     /// the stream. `n` is at most the capacity.
-    public mutating func Peek(_ n: int) throws -> [uint8] {
+    public mutating func Peek(n: int) throws -> [uint8] {
         while end - start < n && !done {
             try fill()
         }
@@ -68,7 +68,7 @@ public struct BufferedReader<R: Reader>: Reader {
 
     /// The bytes up to and including `delimiter`, or what is left where the
     /// stream ends first; nil at the end of the stream.
-    public mutating func ReadUntil(_ delimiter: uint8) throws -> [uint8]? {
+    public mutating func ReadUntil(delimiter: uint8) throws -> [uint8]? {
         var out: [uint8] = []
         while true {
             if start == end {
@@ -134,13 +134,13 @@ public struct BufferedWriter<W: Writer>: Writer {
     var buf: [uint8]
     let capacity: int
 
-    public init(_ inner: W, capacity: int = 65536) {
+    public init(inner: W, capacity: int = 65536) {
         Inner = inner
         buf = []
         self.capacity = capacity < 16 ? 16 : capacity
     }
 
-    public mutating func Write(_ bytes: borrowing [uint8]) throws {
+    public mutating func Write(bytes: borrowing [uint8]) throws {
         if buf.count + bytes.count > capacity {
             try passOn()
         }
@@ -176,7 +176,7 @@ public struct AsyncBufferedReader<R: AsyncReader>: AsyncReader {
     var end: int
     var done: bool
 
-    public init(_ inner: R, capacity: int = 65536) {
+    public init(inner: R, capacity: int = 65536) {
         Inner = inner
         buf = [uint8](repeating: 0, count: capacity < 16 ? 16 : capacity)
         start = 0
@@ -210,7 +210,7 @@ public struct AsyncBufferedReader<R: AsyncReader>: AsyncReader {
         return n
     }
 
-    public mutating func Peek(_ n: int) async throws -> [uint8] {
+    public mutating func Peek(n: int) async throws -> [uint8] {
         while end - start < n && !done {
             try await fill()
         }
@@ -223,7 +223,7 @@ public struct AsyncBufferedReader<R: AsyncReader>: AsyncReader {
         return out
     }
 
-    public mutating func ReadUntil(_ delimiter: uint8) async throws -> [uint8]? {
+    public mutating func ReadUntil(delimiter: uint8) async throws -> [uint8]? {
         var out: [uint8] = []
         while true {
             if start == end {
@@ -283,13 +283,13 @@ public struct AsyncBufferedWriter<W: AsyncWriter>: AsyncWriter {
     var buf: [uint8]
     let capacity: int
 
-    public init(_ inner: W, capacity: int = 65536) {
+    public init(inner: W, capacity: int = 65536) {
         Inner = inner
         buf = []
         self.capacity = capacity < 16 ? 16 : capacity
     }
 
-    public mutating func Write(_ bytes: borrowing [uint8]) async throws {
+    public mutating func Write(bytes: borrowing [uint8]) async throws {
         if buf.count + bytes.count > capacity {
             try await passOn()
         }
@@ -317,7 +317,7 @@ public struct AsyncBufferedWriter<W: AsyncWriter>: AsyncWriter {
 }
 
 // lineText is a line's bytes as text, without the "\n" or "\r\n" ending it.
-func lineText(_ bytes: [uint8]) -> string {
+func lineText(bytes: [uint8]) -> string {
     var n = bytes.count
     if n > 0 && bytes[n - 1] == 10 {
         n -= 1
@@ -333,7 +333,7 @@ func lineText(_ bytes: [uint8]) -> string {
 public struct AsyncLines<R: AsyncReader>: AsyncSequence, AsyncIteratorProtocol {
     var reader: AsyncBufferedReader<R>
 
-    public init(_ inner: R) {
+    public init(inner: R) {
         reader = AsyncBufferedReader(inner)
     }
 

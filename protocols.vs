@@ -12,7 +12,7 @@ public protocol Reader {
 /// Writer is a sink of bytes that answers without waiting.
 public protocol Writer {
     /// Writes all of `bytes`, or throws: there is no partial write.
-    mutating func Write(_ bytes: borrowing [uint8]) throws
+    mutating func Write(bytes: borrowing [uint8]) throws
 
     /// Sends on whatever is buffered. A writer that buffers nothing does
     /// nothing.
@@ -29,7 +29,7 @@ public protocol AsyncReader {
 /// AsyncWriter is a sink of bytes whose writes may have to wait.
 public protocol AsyncWriter {
     /// Writes all of `bytes`, or throws.
-    mutating func Write(_ bytes: borrowing [uint8]) async throws
+    mutating func Write(bytes: borrowing [uint8]) async throws
 
     /// Sends on whatever is buffered.
     mutating func Flush() async throws
@@ -44,7 +44,7 @@ public protocol Closer {
 /// Seeker is a stream with a position that can be moved.
 public protocol Seeker {
     /// Moves the position, and returns where it now is from the start.
-    mutating func Seek(_ to: SeekFrom) throws -> int64
+    mutating func Seek(to: SeekFrom) throws -> int64
 }
 
 /// Where a seek is measured from.

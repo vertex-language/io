@@ -8,7 +8,7 @@ public struct LimitReader<R: Reader>: Reader {
     /// How many bytes may still be read.
     public var Remaining: int
 
-    public init(_ inner: R, _ limit: int) {
+    public init(inner: R, limit: int) {
         Inner = inner
         Remaining = limit
     }
@@ -31,7 +31,7 @@ public struct LimitReader<R: Reader>: Reader {
 }
 
 /// A reader of at most `limit` bytes of `r`.
-public func Limit<R: Reader>(_ r: R, _ limit: int) -> LimitReader<R> {
+public func Limit<R: Reader>(r: R, limit: int) -> LimitReader<R> {
     return LimitReader(r, limit)
 }
 
@@ -42,7 +42,7 @@ public struct ChainReader<A: Reader, B: Reader>: Reader {
     public var Second: B
     var firstDone: bool
 
-    public init(_ first: A, _ second: B) {
+    public init(first: A, second: B) {
         First = first
         Second = second
         firstDone = false
@@ -61,7 +61,7 @@ public struct ChainReader<A: Reader, B: Reader>: Reader {
 }
 
 /// A reader of `first` and then `second`.
-public func Chain<A: Reader, B: Reader>(_ first: A, _ second: B) -> ChainReader<A, B> {
+public func Chain<A: Reader, B: Reader>(first: A, second: B) -> ChainReader<A, B> {
     return ChainReader(first, second)
 }
 
@@ -72,7 +72,7 @@ public struct TeeReader<R: Reader, W: Writer>: Reader {
     public var Inner: R
     public var Output: W
 
-    public init(_ inner: R, to writer: W) {
+    public init(inner: R, to writer: W) {
         Inner = inner
         Output = writer
     }
@@ -87,7 +87,7 @@ public struct TeeReader<R: Reader, W: Writer>: Reader {
 }
 
 /// A reader of `r` that also writes what it reads to `w`.
-public func Tee<R: Reader, W: Writer>(_ r: R, to w: W) -> TeeReader<R, W> {
+public func Tee<R: Reader, W: Writer>(r: R, to w: W) -> TeeReader<R, W> {
     return TeeReader(r, to: w)
 }
 
@@ -101,7 +101,7 @@ public struct DiscardWriter: Writer {
         Count = 0
     }
 
-    public mutating func Write(_ bytes: borrowing [uint8]) throws {
+    public mutating func Write(bytes: borrowing [uint8]) throws {
         Count += int64(bytes.count)
     }
 

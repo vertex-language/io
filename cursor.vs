@@ -24,7 +24,7 @@ public struct Cursor: Reader, Writer, Seeker {
     }
 
     /// A cursor over `bytes`, at their start: to read them.
-    public init(_ bytes: [uint8]) {
+    public init(bytes: [uint8]) {
         Bytes = bytes
         Position = 0
     }
@@ -39,7 +39,7 @@ public struct Cursor: Reader, Writer, Seeker {
         return n
     }
 
-    public mutating func Write(_ bytes: borrowing [uint8]) throws {
+    public mutating func Write(bytes: borrowing [uint8]) throws {
         for b in bytes {
             if Position < Bytes.count {
                 Bytes[Position] = b
@@ -52,7 +52,7 @@ public struct Cursor: Reader, Writer, Seeker {
 
     public mutating func Flush() throws {}
 
-    public mutating func Seek(_ to: SeekFrom) throws -> int64 {
+    public mutating func Seek(to: SeekFrom) throws -> int64 {
         var at: int64 = 0
         switch to {
         case .start(let n):

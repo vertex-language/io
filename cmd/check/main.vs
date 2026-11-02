@@ -5,7 +5,7 @@ import "io"
 
 var failures: int32 = 0
 
-func check(_ ok: bool, _ what: string) {
+func check(ok: bool, what: string) {
     if ok {
         print("ok    \(what)")
     } else {
@@ -50,7 +50,7 @@ struct Collect: io.AsyncWriter {
     var got: [uint8]
     var flushes: int
 
-    mutating func Write(_ bytes: borrowing [uint8]) async throws {
+    mutating func Write(bytes: borrowing [uint8]) async throws {
         for b in bytes {
             got.append(b)
         }
@@ -221,7 +221,7 @@ func testAsync() async {
 }
 
 // Existentials: code written against the protocol, handed whatever conforms.
-func countAny(_ r: inout any io.Reader) throws -> int {
+func countAny(r: inout any io.Reader) throws -> int {
     var buf = [uint8](repeating: 0, count: 4)
     var total = 0
     while true {

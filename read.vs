@@ -4,7 +4,7 @@ package io
 
 /// Fills all of `buffer`, reading as many times as it takes. Throws
 /// `IoError.unexpectedEnd` where the stream ends first.
-public func ReadFull<R: Reader>(_ r: inout R, into buffer: inout [uint8]) throws {
+public func ReadFull<R: Reader>(r: inout R, into buffer: inout [uint8]) throws {
     var got = 0
     var chunk = [uint8](repeating: 0, count: buffer.count)
     while got < buffer.count {
@@ -19,7 +19,7 @@ public func ReadFull<R: Reader>(_ r: inout R, into buffer: inout [uint8]) throws
 }
 
 /// Fills all of `buffer` from an async stream; see the sync form.
-public func ReadFull<R: AsyncReader>(_ r: inout R, into buffer: inout [uint8]) async throws {
+public func ReadFull<R: AsyncReader>(r: inout R, into buffer: inout [uint8]) async throws {
     var got = 0
     var chunk = [uint8](repeating: 0, count: buffer.count)
     while got < buffer.count {
@@ -35,7 +35,7 @@ public func ReadFull<R: AsyncReader>(_ r: inout R, into buffer: inout [uint8]) a
 
 /// Everything until the end of the stream. Throws `IoError.tooLarge` past
 /// `limit` bytes (64 MiB where none is given).
-public func ReadToEnd<R: Reader>(_ r: inout R, limit: int = 64 * 1024 * 1024) throws -> [uint8] {
+public func ReadToEnd<R: Reader>(r: inout R, limit: int = 64 * 1024 * 1024) throws -> [uint8] {
     var out: [uint8] = []
     var buf = [uint8](repeating: 0, count: 16384)
     while true {
@@ -51,7 +51,7 @@ public func ReadToEnd<R: Reader>(_ r: inout R, limit: int = 64 * 1024 * 1024) th
 }
 
 /// Everything until the end of an async stream; see the sync form.
-public func ReadToEnd<R: AsyncReader>(_ r: inout R, limit: int = 64 * 1024 * 1024) async throws -> [uint8] {
+public func ReadToEnd<R: AsyncReader>(r: inout R, limit: int = 64 * 1024 * 1024) async throws -> [uint8] {
     var out: [uint8] = []
     var buf = [uint8](repeating: 0, count: 16384)
     while true {
@@ -67,24 +67,24 @@ public func ReadToEnd<R: AsyncReader>(_ r: inout R, limit: int = 64 * 1024 * 102
 }
 
 /// Everything until the end of the stream, as UTF-8 text.
-public func ReadText<R: Reader>(_ r: inout R, limit: int = 64 * 1024 * 1024) throws -> string {
+public func ReadText<R: Reader>(r: inout R, limit: int = 64 * 1024 * 1024) throws -> string {
     return Text(try ReadToEnd(&r, limit: limit))
 }
 
 /// Everything until the end of an async stream, as UTF-8 text.
-public func ReadText<R: AsyncReader>(_ r: inout R, limit: int = 64 * 1024 * 1024) async throws -> string {
+public func ReadText<R: AsyncReader>(r: inout R, limit: int = 64 * 1024 * 1024) async throws -> string {
     return Text(try await ReadToEnd(&r, limit: limit))
 }
 
 // ---- Writing text ------------------------------------------------------
 
 /// Writes `text` as UTF-8.
-public func WriteText<W: Writer>(_ w: inout W, _ text: string) throws {
+public func WriteText<W: Writer>(w: inout W, text: string) throws {
     try w.Write(Bytes(text))
 }
 
 /// Writes `text` as UTF-8 to an async stream.
-public func WriteText<W: AsyncWriter>(_ w: inout W, _ text: string) async throws {
+public func WriteText<W: AsyncWriter>(w: inout W, text: string) async throws {
     try await w.Write(Bytes(text))
 }
 
